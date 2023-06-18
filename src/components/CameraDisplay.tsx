@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 function CameraDisplay() {
     
-    let [connectedUM, setConnectedUM] = useState();
-
+    // let [connectedUM, setConnectedUM] = useState();
+    
     useEffect(() => {
-        const getConnectedUserMedia = async () => {
-            const response = await navigator.mediaDevices;
-            console.log(response);
-        }
+        const getConnectedUserMedia = navigator.mediaDevices.enumerateDevices();
+        getConnectedUserMedia.then((response) => {
+            console.log(response[0].kind, response[1].kind);
+            
+        })
+        // console.log(getConnectedUserMedia);
     }
         ,[]);
-        return (
+    return (
         <div>
             <p>This is where I'm going to return my MediaDevices list:</p>
             {/* {`<p>${response}<p/>`} */}
