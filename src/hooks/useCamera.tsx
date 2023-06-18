@@ -14,5 +14,10 @@ export function useCamera() {
         } catch(error) {
             console.error('Error accessing media devices.', error);
         }
+        return () => {
+
+        };
     },[]);
 }
+
+export default useCamera;
