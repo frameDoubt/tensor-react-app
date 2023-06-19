@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function CameraDisplay() {
 
-    const strClnr = (str: string): string => { return str.split(' ').slice(0, -1).join(" ") };
+    const strClnr = (str: string): string => str.split(' ').slice(0, -1).join(" ");
     
     let [connectedUserMedia, setConnectedUserMedia] = useState("");
     
