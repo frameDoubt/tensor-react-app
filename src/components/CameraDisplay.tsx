@@ -6,12 +6,10 @@ function CameraDisplay() {
 
     const strClnr = (str: string): string => str.split(' ').slice(0, -1).join(" ");
     
-    // useCamera;
+    // useCamera()
     useEffect(() => {
-        const getConnectedUserMedia = navigator.mediaDevices.enumerateDevices();
-        getConnectedUserMedia.then((response) => { 
-            userMediaRef.current = strClnr(response["1"]["label"]);
-        });
+        navigator.mediaDevices.enumerateDevices()
+            .then((response) => userMediaRef.current = strClnr(response["1"]["label"]));
     }
         ,[]);
     return (
