@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
+import useCamera from "../hooks/useCamera";
 
 function CameraDisplay() {
-    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-        console.log("Let's get this party started")
-      }
     const strClnr = (str: string): string => str.split(' ').slice(0, -1).join(" ");
-    
+    const [ useVideoStream, setVideoStream ] = useState({});
     // try useRef instead
     let [connectedUserMedia, setConnectedUserMedia] = useState("");
     
