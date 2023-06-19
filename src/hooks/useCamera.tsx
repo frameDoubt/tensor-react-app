@@ -1,23 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function useCamera() {
-    useEffect(() => {
-        const openMediaDevice = async (constraints: {}) => {
-            return await navigator.mediaDevices.getUserMedia(constraints)
-        }
-        try {
-        const stream = openMediaDevice({
-                'video': true, 
-                'audio': false
-            });
-            console.log('Got MediaStream', stream);
-        } catch(error) {
-            console.error('Error accessing media devices.', error);
-        }
-        return () => {
+    const [useStream, setStream] = useState();
 
-        };
+    useEffect(() => {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then((stream) => {
+            })
+            .catch((err) => {
+                console.log("error with video media stream: ",err);
+            });
     },[]);
+    
+    return (
+        <div>
+            <canvas></canvas>
+        </div>
+    );
 }
 
 export default useCamera;
