@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 function CameraDisplay() {
-
+    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+        console.log("Let's get this party started")
+      }
     const strClnr = (str: string): string => str.split(' ').slice(0, -1).join(" ");
     
+    // try useRef instead
     let [connectedUserMedia, setConnectedUserMedia] = useState("");
     
     useEffect(() => {
@@ -16,6 +19,7 @@ function CameraDisplay() {
         ,[]);
     return (
         <div>
+            <canvas></canvas>
             <p>This is where I'm going to return my MediaDevices list:</p>
             <p>{connectedUserMedia}</p>
         </div>
