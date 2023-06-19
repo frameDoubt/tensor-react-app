@@ -19,7 +19,6 @@ function CameraDisplay() {
         ,[]);
     return (
         <div>
-            <canvas></canvas>
             <p>This is where I'm going to return my MediaDevices list:</p>
             <p>{connectedUserMedia}</p>
         </div>
