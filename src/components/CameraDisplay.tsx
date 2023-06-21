@@ -1,23 +1,28 @@
-import React, { useEffect, useRef } from "react";
-// import useCamera from "../hooks/useCamera";
+import React, { useEffect, useRef, useState } from "react";
+import { useCamera } from "../hooks/useCamera";
+
+const CAPTURE_OPTIONS = {
+    video: {
+        width: 120, height: 240,
+        facingMode: "front" ? "environment" : "user",
+    }, audio: false,
+};
 
 function CameraDisplay() {
-    const userMediaRef = useRef('');
-
-    const strClnr = (str: string): string => str.split(' ').slice(0, -1).join(" ");
+    // const [playing, setPlaying] = useState(false);
+    // const [stream, setStream]: any = useState(null);
     
-    // useCamera()
-    useEffect(() => {
-        navigator.mediaDevices.enumerateDevices()
-            .then((response) => userMediaRef.current = strClnr(response["1"]["label"]));
-    }
-        ,[]);
+    const videoRef: any = useRef();
+    const mediaStream = useCamera(CAPTURE_OPTIONS);
+    if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
+        videoRef.current.srcObject = mediaStream;
+      }
+    
+      function handleCanPlay() {
+        videoRef.current.play();
+      }
     return (
-        <div>
-            <canvas><video></video></canvas>
-            <p>This is where I'm going to return my MediaDevices list:</p>
-            <p>{userMediaRef.current}</p>
-        </div>
+        (videoRef ? <video ref={videoRef} onCanPlay={handleCanPlay} autoPlay playsInline muted></video> : <p>Oops something went wrong.</p>)
     );
 }
 

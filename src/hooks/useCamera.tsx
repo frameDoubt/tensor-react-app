@@ -1,33 +1,28 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export function useCamera() {
-    // const [useStream, setStream] = useState({});
-    const videoStreamRef = useRef({});
+export function useCamera(requestedMedia: any) {
+  const [mediaStream, setMediaStream]: any = useState(null);
 
-    useEffect(()  => {
-        const constraints = {
-            video: {
-                width: 320, height: 0,
-                facingMode: "front" ? "environment" : "user",
-            }, audio: false,
-        };
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-                console.log(stream);
-                // setStream(curStrm => curStrm = stream);
-                // streamTrack = useStream.getVideoTracks()[0];
-                videoStreamRef.current = stream;
-                
-            })
-            .catch((err) => {
-                console.log("error with video media stream: ",err);
-            });
-            // console.log(streamTrack);
-        return
-            // setStream(curStrm => curStrm.removeTrack(streamTrack)
-    },[]);
+  useEffect(() => {
+    async function enableStream() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(requestedMedia);
+        setMediaStream(stream);
+      } catch(err) {
+        console.error('getUserMedia is not supported in this browser.: ', err);
+      }
+    }
 
-    return videoStreamRef;
+    if (!mediaStream) {
+      enableStream();
+    } else {
+      return function cleanup() {
+        mediaStream.getTracks().forEach((track: any) => {
+          track.stop();
+        });
+      }
+    }
+  }, []);
+
+  return mediaStream;
 }
-
-export default useCamera;
